@@ -1,11 +1,10 @@
-from audioop import reverse
-from distutils.command import upload
 from django.db import models
 from django.urls import reverse
 
 # Create your models here.
 class Category(models.Model):
-  category_name = models.CharField('Categoría', max_length=30, unique=True)
+  category_name = models.CharField('Categoría', max_length=50, unique=True)
+  short_name = models.CharField('Nombre corto', max_length=30, blank=True)
   description = models.CharField('Descripción', max_length=255, blank=True)
   slug = models.CharField(max_length=100, unique=True)
   cat_image = models.ImageField('Imagen', upload_to='photos/categories', blank=True)
