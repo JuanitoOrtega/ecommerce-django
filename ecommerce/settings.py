@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links', # Con esto lo hacemos público para que cualquier template tenga acceso
+                'carts.context_processors.counter',
             ],
         },
     },

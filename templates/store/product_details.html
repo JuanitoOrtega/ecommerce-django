@@ -71,7 +71,12 @@
                 <strong>Producto agotado</strong>
               </div>
               {% else %}
-              <a href="./product-detail.html" class="btn  btn-primary"> <span class="text">Agregar al carrito</span> <i class="fas fa-shopping-cart"></i></a>
+                {% if in_cart %}
+                <button class="btn btn-outline-success"><span class="text">Agregado al carrito</span> <i class="fas fa-check"></i></button>
+                <a href="{% url 'cart' %}" class="btn btn-primary"><span class="text">Ir al carrito</span> <i class="fas fa-shopping-cart"></i></a>
+                {% else %}
+                <a href="{% url 'add_cart' single_product.id %}" class="btn btn-primary"> <span class="text">Agregar al carrito</span> <i class="fas fa-shopping-cart"></i></a>
+                {% endif %}
               {% endif %}
             </article> <!-- product-info-aside .// -->
           </main> <!-- col.// -->
