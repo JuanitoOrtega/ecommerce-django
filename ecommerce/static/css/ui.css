@@ -629,7 +629,7 @@ p:last-child {
 }
 .itemside .info {
   padding-left: 15px;
-  padding-right: 7px;
+  /* padding-right: 7px; */
 }
 .itemside p {
   margin-bottom: 0;
