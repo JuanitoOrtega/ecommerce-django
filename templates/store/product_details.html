@@ -25,28 +25,30 @@
                 </div>
                 <p>{{ single_product.description }}</p>
                 <hr>
-                
-                <div class="item-option-select">
-                  <div class="mb-3">
-                    <label for="color" class="form-label font-weight-bold">Color</label>
-                    <select class="form-control" name="color" id="color" required>
-                      <option value="" disabled selected>Seleccione</option>
-                      {% for i in single_product.variation_set.colors %}
-                      <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
-                      {% endfor %}
-                    </select>
+                <div class="variation">
+                  <div class="item-option-select">
+                    <div class="mb-3">
+                      <label for="color" class="form-label font-weight-bold">Color</label>
+                      <select class="form-control" name="color" id="color" required>
+                        <option value="" disabled selected>Seleccione</option>
+                        {% for i in single_product.variation_set.colors %}
+                        <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
                   </div>
                 </div>
-                
-                <div class="item-option-select">
-                  <div class="mb-3">
-                    <label for="talla" class="form-label font-weight-bold">Tamaño / Talla</label>
-                    <select class="form-control" name="talla" id="talla" required>
-                      <option value="" disabled selected>Seleccione</option>
-                      {% for i in single_product.variation_set.tallas %}
-                      <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
-                      {% endfor %}
-                    </select>
+                <div class="variation">
+                  <div class="item-option-select">
+                    <div class="mb-2">
+                      <label for="talla" class="form-label font-weight-bold">Tamaño / Talla</label>
+                      <select class="form-control" name="talla" id="talla" required>
+                        <option value="" disabled selected>Seleccione</option>
+                        {% for i in single_product.variation_set.tallas %}
+                        <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
                   </div>
                 </div>
                 <hr>
@@ -68,17 +70,17 @@
       <br>
             
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12 col-lg-9">
       
           <header class="section-heading">
-            <h3>Customer Reviews</h3>
+            <h3>Valoración de los clientes</h3>
           </header>
       
           <article class="box mb-3">
             <div class="icontext w-100">
               <img src="{% static 'images/avatars/avatar1.jpg' %}" class="img-xs icon rounded-circle">
               <div class="text">
-                <span class="date text-muted float-md-right">24.04.2020</span>  
+                <span class="date text-muted float-md-right">24.04.2022</span>
                 <h6 class="mb-1">Mike John</h6>
               </div>
             </div> <!-- icontext.// -->
