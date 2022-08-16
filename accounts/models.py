@@ -46,6 +46,10 @@ class Account(AbstractBaseUser):
   email = models.EmailField('Correo electrónico', max_length=100, unique=True)
   phone_number = models.CharField('Teléfono', max_length=50)
 
+  class Meta:
+    verbose_name = 'cuenta'
+    verbose_name_plural = 'cuentas'
+
   # Campos atributos de django
   date_joined = models.DateTimeField(auto_now_add=True)
   last_login = models.DateTimeField(auto_now_add=True)
