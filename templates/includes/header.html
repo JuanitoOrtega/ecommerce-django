@@ -94,7 +94,7 @@
                   <span class="dark-transp"> | </span>
                   <a href="{% url 'register' %}">Registrarse</a>
                   {% else %}
-                  <a href="#">Mi cuenta</a>
+                  <a href="{% url 'dashboard' %}">Dashboard</a>
                   <span class="dark-transp"> | </span>
                   <a href="{% url 'logout' %}">Salir</a>
                   {% endif %}
