@@ -1,4 +1,3 @@
-from asyncio import exceptions
 from django.shortcuts import render, redirect, get_object_or_404
 from store.models import Product, Variation
 from .models import Cart, CartItem
@@ -104,6 +103,8 @@ def remove_cart_item(request, product_id, cart_item_id):
 
 
 def cart(request, total=0, quantity=0, cart_items=None):
+  tax = 0
+  total_tax = 0
   try:
     cart = Cart.objects.get(cart_id=_cart_id(request))
     cart_items = CartItem.objects.filter(cart=cart, is_active=True)
@@ -126,3 +127,30 @@ def cart(request, total=0, quantity=0, cart_items=None):
   }
 
   return render(request, 'store/cart.html', context)
+
+
+def checkout(request, total=0, quantity=0, cart_items=None):
+  tax = 0
+  total_tax = 0
+  try:
+    cart = Cart.objects.get(cart_id=_cart_id(request))
+    cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+    for cart_item in cart_items:
+      total += (cart_item.product.price * cart_item.quantity)
+      quantity += cart_item.quantity
+    pre_tax = (2 * total) / 100
+    tax = round(pre_tax, 2) # redondeamos a 2 decimaes
+    pre_total_tax = total + tax
+    total_tax = round(pre_total_tax, 2) # redondeamos a 2 decimaes
+  except ObjectDoesNotExist:
+    pass ## solo ignora la excepción
+
+  context = {
+    'total': total,
+    'quantity': quantity,
+    'cart_items': cart_items,
+    'tax': tax,
+    'total_tax': total_tax,
+  }
+
+  return render(request, 'store/checkout.html', context)
