@@ -1,4 +1,3 @@
-from urllib import request
 from django.shortcuts import render, redirect
 from .forms import RegistrationForm
 from .models import Account
@@ -10,6 +9,9 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.core.mail import EmailMessage
+
+from carts.views import _cart_id
+from carts.models import Cart, CartItem
 
 # Create your views here.
 def register(request):
@@ -54,7 +56,19 @@ def login(request):
     password = request.POST['password']
 
     user = auth.authenticate(email=email, password=password)
+
     if user is not None:
+      try:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
+        if is_cart_item_exists:
+          cart_item = CartItem.objects.filter(cart=cart)
+          for item in cart_item:
+            item.user = user
+            item.save()
+      except:
+        pass
+
       auth.login(request, user)
       messages.success(request, "Has iniciado sesión exitosamente")
       return redirect('dashboard')
