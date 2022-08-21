@@ -7,6 +7,10 @@ class Cart(models.Model):
   cart_id = models.CharField(max_length=255, blank=True)
   date_added = models.DateField(auto_now_add=True)
 
+  class Meta:
+    verbose_name = 'carrito'
+    verbose_name_plural = 'carritos'
+
   def __str__(self):
     return self.cart_id
 
@@ -18,6 +22,10 @@ class CartItem(models.Model):
   cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True)
   quantity = models.IntegerField()
   is_active = models.BooleanField(default=True)
+
+  class Meta:
+    verbose_name = 'artículo'
+    verbose_name_plural = 'artículos'
 
   def subtotal(self):
     return self.product.price * self.quantity
