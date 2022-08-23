@@ -1,12 +1,29 @@
-from multiprocessing import context
 from django.shortcuts import render, redirect
 from carts.models import CartItem
 from .forms import OrderForm
 from .models import Order
 import datetime
+from .models import Order, Payment
+import json
 
 # Create your views here.
 def payments(request):
+  body = json.loads(request.body)
+  order = Order.objects.get(user=request.user, is_ordered=False, order_number=body['orderID'])
+
+  payment = Payment(
+    user = request.user,
+    payment_id = body['transID'],
+    payment_method = body['payment_method'],
+    amount_id = order.order_total,
+    status = body['status'],
+  )
+  payment.save()
+
+  order.payment = payment
+  order.is_ordered = True
+  order.save()
+  
   return render(request, 'orders/payments.html')
 
 def place_order(request, total=0, quantity=0):
@@ -17,15 +34,17 @@ def place_order(request, total=0, quantity=0):
   if cart_count <= 0:
     return redirect('store')
   
-  total_tax = 0
   tax = 0
+  total_tax = 0
 
   for cart_item in cart_items:
     total += (cart_item.product.price * cart_item.quantity)
     quantity += cart_item.quantity
 
-  tax = (2 * total) / 100
-  total_tax = total + tax
+  pre_tax = (2 * total) / 100
+  tax = round(pre_tax, 2) # redondeamos a 2 decimaes
+  pre_total_tax = total + tax
+  total_tax = round(pre_total_tax, 2) # redondeamos a 2 decimaes
 
   if request.method == 'POST':
     form = OrderForm(request.POST)
@@ -43,8 +62,8 @@ def place_order(request, total=0, quantity=0):
       data.state = form.cleaned_data['state']
       data.country = form.cleaned_data['country']
       data.order_note = form.cleaned_data['order_note']
-      data.order_total = total_tax
       data.tax = tax
+      data.order_total = total_tax
       data.ip = request.META.get('REMOTE_ADDR')
       data.save()
 
@@ -63,6 +82,7 @@ def place_order(request, total=0, quantity=0):
         'order': order,
         'cart_items': cart_items,
         'total': total,
+        'tax': tax,
         'total_tax': total_tax,
       }
 
