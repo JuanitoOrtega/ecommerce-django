@@ -2,3 +2,7 @@ env/
 .DS_Store
 html_template/
 README.txt
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
